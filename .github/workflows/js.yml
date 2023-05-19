@@ -69,12 +69,8 @@ jobs:
           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
           NETLIFY_SITE_NAME: 'react-js-project'
         run: |
-          npm run build # Replace this with your build command
+          
 
-          # Install Netlify CLI
-          npm install -g netlify-cli
-
-          # Deploy the build to Netlify
           netlify deploy --dir=./build --prod --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
 
           
