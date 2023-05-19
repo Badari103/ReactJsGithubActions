@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-artifact
-          path: build
+          path: target/
 
   deploy:
     needs: build
@@ -57,6 +57,6 @@ jobs:
               "repoPath": "target",
               "buildSettings": {
                 "command": "npm ci && npm run build",
-                "publish": "build"
+                "publish": "target"
               }
             }'
