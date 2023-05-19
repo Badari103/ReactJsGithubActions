@@ -42,6 +42,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-artifacts
+          path : build
           
       - name: Deploy to Netlify
         env:
