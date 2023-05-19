@@ -51,7 +51,7 @@ jobs:
             -H "Authorization: Bearer $NETLIFY_API_TOKEN" \
             -d '{
               "name": "'"$NETLIFY_SITE_NAME"'",
-              "repo": "Badari103/ ReactJsGithubActions",
+              "repo": "Badari103/ReactJsGithubActions",
               "repoPath": "build", 
               "build_settings": {
                 "command": "npm run build",
