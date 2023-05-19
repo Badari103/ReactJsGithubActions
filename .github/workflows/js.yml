@@ -48,4 +48,4 @@ jobs:
           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
         run: |
           npm install -g netlify-cli
-          netlify deploy --prod --dir=build --auth="${NETLIFY_ACCESS_TOKEN}"
+          netlify deploy --prod --dir=build --auth="${NETLIFY_API_TOKEN}"
