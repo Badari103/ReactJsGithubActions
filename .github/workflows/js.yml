@@ -44,18 +44,26 @@ jobs:
           name: build-artifacts
           path : build
           
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
       - name: Deploy to Netlify
         env:
-            NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-        run: |
-          curl -X POST "https://api.netlify.com/api/v1/sites" \
-            -H "Authorization: Bearer $NETLIFY_API_TOKEN" \
-            -d '{
-              "name": "'"$NETLIFY_SITE_NAME"'",
-              "repo": "Badari103/ReactJsGithubActions",
-              "repoPath": "build", 
-              "build_settings": {
-                "command": "npm run build",
-                "publish": "build"
-              }
-            }'
+          NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+        run: netlify deploy --prod --dir=build --auth=$NETLIFY_ACCESS_TOKEN
+          
+#       - name: Deploy to Netlify
+#         env:
+#             NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+#         run: |
+#           curl -X POST "https://api.netlify.com/api/v1/sites" \
+#             -H "Authorization: Bearer $NETLIFY_API_TOKEN" \
+#             -d '{
+#               "name": "'"$NETLIFY_SITE_NAME"'",
+#               "repo": "Badari103/ReactJsGithubActions",
+#               "repoPath": "build", 
+#               "build_settings": {
+#                 "command": "npm run build",
+#                 "publish": "build"
+#               }
+#             }'
