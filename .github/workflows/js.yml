@@ -47,12 +47,22 @@ jobs:
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
-      - name: Create and Deploy to Netlify
+      - name: Deploy to Netlify
         env:
           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+          NETLIFY_SITE_NAME: 'react-js-project'
         run: |
-          netlify init --offline
-          netlify deploy --prod
+          curl -X POST "https://api.netlify.com/api/v1/sites" \
+            -H "Authorization: Bearer $NETLIFY_ACCESS_TOKEN" \
+            -d '{
+              "name": "'"$NETLIFY_SITE_NAME"'",
+              "repo": "Badari103/ReactJsGithubActions",
+              "repoPath": "build",
+              "buildSettings": {
+                "command": "npm run build",
+                "publish": "build"
+              }
+            }'
           
 #       - name: Install Netlify CLI
 #         run: npm install -g netlify-cli
