@@ -64,14 +64,14 @@ jobs:
               }
             }'
             
-      - name: Deploy 
-        env:
-          NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-          NETLIFY_SITE_NAME: 'react-js-project'
-        run: |
+#       - name: Deploy 
+#         env:
+#           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+#           NETLIFY_SITE_NAME: 'react-js-project'
+#         run: netlify deploy --dir=./build --prod --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
           
 
-          netlify deploy --dir=./build --prod --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
+          
 
           
 #       - name: Install Netlify CLI
