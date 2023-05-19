@@ -1,4 +1,4 @@
-name: Build and Deploy React App
+name: Build and Deploy
 
 on:
   push:
@@ -10,42 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build React app
+      - name: Build project
         run: npm run build
-
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifact
-          path: build
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifact
-
       - name: Deploy to Netlify
-        env:
-          NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-        run: |
-          npm install -g netlify-cli
-          netlify deploy --prod --dir=build --auth="${NETLIFY_API_TOKEN}"
+        uses: nwtgck/actions-netlify@v1
+        with:
+          args: deploy --prod --dir=build
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
