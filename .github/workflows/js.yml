@@ -42,9 +42,21 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-artifact
+          path: target
           
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1
-        with:
-          args: deploy --prod --dir=build
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+        env:
+          NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+          NETLIFY_SITE_NAME: 'react-js-project'
+        run: |
+          curl -X POST "https://api.netlify.com/api/v1/sites" \
+            -H "Authorization: Bearer $NETLIFY_API_TOKEN" \
+            -d '{
+              "name": "'"$NETLIFY_SITE_NAME"'",
+              "repo": "Badari103/ ReactJsGithubActions",
+              "repoPath": "target",
+              "buildSettings": {
+                "command": "npm ci && npm run build",
+                "publish": "build"
+              }
+            }'
