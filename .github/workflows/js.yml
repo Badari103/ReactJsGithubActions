@@ -51,7 +51,7 @@ jobs:
 #         id: create_site
 #         run: |
 #           NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_API_TOKEN }}
-#           SITE_NAME=$(netlify sites:create --json --auth="$NETLIFY_AUTH_TOKEN" | jq -r '.name')
+#           SITE_NAME=$(netlify sites:create --json --auth="$NETLIFY_AUTH_TOKEN" | jq -r 'name')
 #           echo "Site name: $SITE_NAME"
 #           echo "::set-output name=site_name::$SITE_NAME"
 
