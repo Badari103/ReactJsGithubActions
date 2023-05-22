@@ -74,15 +74,18 @@ jobs:
             }'
             SITE_NAME=$(echo $RESPONSE | jq -r '.name')
             echo "NETLIFY_SITE_NAME=$SITE_NAME" >> $GITHUB_ENV
+            npm install
+            npm run build
+            netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
 
-      - name: Build and Deploy
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-          NETLIFY_SITE_NAME: ${{ steps.create_site.outputs.site_name }}
-        run: |
-          npm install
-          npm run build
-          netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_AUTH_TOKEN
+#       - name: Build and Deploy
+#         env:
+#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+#           NETLIFY_SITE_NAME: ${{ steps.create_site.outputs.site_name }}
+#         run: |
+#           npm install
+#           npm run build
+#           netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_AUTH_TOKEN
 
 
             
