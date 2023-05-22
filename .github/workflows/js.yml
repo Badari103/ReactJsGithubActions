@@ -73,8 +73,7 @@ jobs:
               }
             }'
             SITE_NAME=$(echo $RESPONSE | jq -r '.name')
-            echo "Site name: $SITE_NAME"
-            echo "::set-output name=site_name::$SITE_NAME"
+            echo "NETLIFY_SITE_NAME=$SITE_NAME" >> $GITHUB_ENV
 
       - name: Build and Deploy
         env:
