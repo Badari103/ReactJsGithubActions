@@ -73,7 +73,7 @@ jobs:
               }
             }'
             SITE_NAME=$(echo $RESPONSE | jq -r '.name')
-            echo "NETLIFY_SITE_NAME=$SITE_NAME" >> $GITHUB_ENV
+            echo "::set-output name=site_name::$SITE_NAME"
             npm install
             npm run build
             netlify deploy --prod --dir=build --site=$SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
