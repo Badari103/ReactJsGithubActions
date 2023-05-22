@@ -55,7 +55,7 @@ jobs:
           curl -X POST "https://api.netlify.com/api/v1/sites" \
             -H "Authorization: Bearer $NETLIFY_ACCESS_TOKEN" \
             -d '{
-              "name": ${{NETLIFY_SITE_NAME}},
+              "name": "'"$NETLIFY_SITE_NAME"'",
               "repo": "Badari103/ReactJsGithubActions",
               "repoPath": "build",
               "buildSettings": {
