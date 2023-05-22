@@ -85,8 +85,9 @@ jobs:
           NETLIFY_SITE_NAME: "helpful-jelly-61dc7a"
         run: |
           npm install
-          npm run build
           netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_AUTH_TOKEN
+          
+          #If u eed to build it again use this in 87 next line npm run build
 
 
             
