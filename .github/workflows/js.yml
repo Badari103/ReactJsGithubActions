@@ -76,7 +76,7 @@ jobs:
             echo "NETLIFY_SITE_NAME=$SITE_NAME" >> $GITHUB_ENV
             npm install
             npm run build
-            netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
+            netlify deploy --prod --dir=build --site=$SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
 
 #       - name: Build and Deploy
 #         env:
