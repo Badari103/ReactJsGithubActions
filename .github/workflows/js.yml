@@ -55,37 +55,38 @@ jobs:
 #           echo "Site name: $SITE_NAME"
 #           echo "::set-output name=site_name::$SITE_NAME"
 
-      - name: Deploy to Netlify
-        id: create_site
-        env:
-          NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-#           NETLIFY_SITE_NAME: 'react-js-project'
-        run: |
-          curl -X POST "https://api.netlify.com/api/v1/sites" \
-            -H "Authorization: Bearer $NETLIFY_ACCESS_TOKEN" \
-            -d '{
-              "name": "'"$NETLIFY_SITE_NAME"'",
-              "repo": "Badari103/ReactJsGithubActions",
-              "repoPath": "build",
-              "buildSettings": {
-                "command": "npm run build",
-                "publish": "build"
-              }
-            }'
-            SITE_NAME=$(echo $RESPONSE | jq -r '.name')
-            echo "::set-output name=site_name::$SITE_NAME"
-            npm install
-            npm run build
-            netlify deploy --prod --dir=build --site=$SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
-
-#       - name: Build and Deploy
+#       - name: Deploy to Netlify
+#         id: create_site
 #         env:
-#           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-#           NETLIFY_SITE_NAME: ${{ steps.create_site.outputs.site_name }}
+#           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+# #           NETLIFY_SITE_NAME: 'react-js-project'
 #         run: |
-#           npm install
-#           npm run build
-#           netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_AUTH_TOKEN
+#           curl -X POST "https://api.netlify.com/api/v1/sites" \
+#             -H "Authorization: Bearer $NETLIFY_ACCESS_TOKEN" \
+#             -d '{
+#               "name": "'"$NETLIFY_SITE_NAME"'",
+#               "repo": "Badari103/ReactJsGithubActions",
+#               "repoPath": "build",
+#               "buildSettings": {
+#                 "command": "npm run build",
+#                 "publish": "build"
+#               }
+#             }'
+#             SITE_NAME=$(echo $RESPONSE | jq -r '.name')
+#             echo "::set-output name=site_name::$SITE_NAME"
+#             npm install
+#             npm run build
+#             netlify deploy --prod --dir=build --site=$SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
+# It is when you need to create a new site 
+
+      - name: Build and Deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+          NETLIFY_SITE_NAME: "helpful-jelly-61dc7a"
+        run: |
+          npm install
+          npm run build
+          netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_AUTH_TOKEN
 
 
             
