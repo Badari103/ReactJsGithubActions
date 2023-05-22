@@ -1,0 +1,126 @@
+name: Build and Deploy 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+        
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+          path : build
+          
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+        
+#       - name: Create Netlify Site
+#         id: create_site
+#         run: |
+#           NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_API_TOKEN }}
+#           SITE_NAME=$(netlify sites:create --json --auth="$NETLIFY_AUTH_TOKEN" | jq -r 'name')
+#           echo "Site name: $SITE_NAME"
+#           echo "::set-output name=site_name::$SITE_NAME"
+
+#       - name: Deploy to Netlify
+#         id: create_site
+#         env:
+#           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+# #           NETLIFY_SITE_NAME: 'react-js-project'
+#         run: |
+#           curl -X POST "https://api.netlify.com/api/v1/sites" \
+#             -H "Authorization: Bearer $NETLIFY_ACCESS_TOKEN" \
+#             -d '{
+#               "name": "'"$NETLIFY_SITE_NAME"'",
+#               "repo": "Badari103/ReactJsGithubActions",
+#               "repoPath": "build",
+#               "buildSettings": {
+#                 "command": "npm run build",
+#                 "publish": "build"
+#               }
+#             }'
+#             SITE_NAME=$(echo $RESPONSE | jq -r '.name')
+#             echo "::set-output name=site_name::$SITE_NAME"
+#             npm install
+#             npm run build
+#             netlify deploy --prod --dir=build --site=$SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
+# It is when you need to create a new site 
+
+      - name: Build and Deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+          NETLIFY_SITE_NAME: "helpful-jelly-61dc7a"
+        run: |
+          npm install
+          netlify deploy --prod --dir=build --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_AUTH_TOKEN
+          
+          #If u eed to build it again use this in 87 next line npm run build
+
+
+            
+#       - name: Deploy 
+#         env:
+#           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+#           NETLIFY_SITE_NAME: 'react-js-project'
+#         run: netlify deploy --dir=./build --prod --site=$NETLIFY_SITE_NAME --auth=$NETLIFY_ACCESS_TOKEN
+          
+
+          
+
+          
+#       - name: Install Netlify CLI
+#         run: npm install -g netlify-cli
+
+#       - name: Deploy to Netlify
+#         env:
+#           NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+#         run: netlify deploy --prod --dir=build --auth=$NETLIFY_ACCESS_TOKEN
+          
+#       - name: Deploy to Netlify
+#         env:
+#             NETLIFY_ACCESS_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+#         run: |
+#           curl -X POST "https://api.netlify.com/api/v1/sites" \
+#             -H "Authorization: Bearer $NETLIFY_API_TOKEN" \
+#             -d '{
+#               "name": "'"$NETLIFY_SITE_NAME"'",
+#               "repo": "Badari103/ReactJsGithubActions",
+#               "repoPath": "build", 
+#               "build_settings": {
+#                 "command": "npm run build",
+#                 "publish": "build"
+#               }
+#             }'
